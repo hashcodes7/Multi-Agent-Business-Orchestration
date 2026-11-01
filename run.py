@@ -1,22 +1,29 @@
-from src.config import setenv
+"""
+run.py — Environment bootstrap & server launcher.
 
+Sets APP_ENV *before* uvicorn imports the app so that config.py
+picks up the correct .env.<APP_ENV> file on first load.
 
-def display_startup_banner(settings):
-    """Displays current environment details on startup."""
-    print("================================================================")
+Usage:
+    python run.py          # defaults to 'dev'
+    python run.py prod     # loads .env.prod
+"""
 
-    print(f"Environment       : {settings.APP_ENV.upper()}")
-    print(f"Config Source     : .env.{settings.APP_ENV}")
-    print(f"Ecommerce Base URL: {settings.ECOMMERCE_API_BASE_URL}")
-    print("================================================================")
-    print("             "+settings.APP_ENV.upper()+ " Environment initialized")
-    print("================================================================")
+import os
+import sys
 
+import uvicorn
 
-def main():
-    settings = setenv()
-    display_startup_banner(settings)
+# Set APP_ENV before anything in src/ is imported.
+os.environ.setdefault("APP_ENV", sys.argv[1] if len(sys.argv) > 1 else "dev")
 
+_env = os.environ["APP_ENV"]
 
 if __name__ == "__main__":
-    main()
+    uvicorn.run(
+        "src.main:app",
+        host="0.0.0.0",
+        port=8000,
+        reload=(_env == "dev"),
+        log_level="info",
+    )

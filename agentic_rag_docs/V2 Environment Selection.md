@@ -1,7 +1,8 @@
 We will now run the python enterprise way where environment variable of OS supplies the env file. 
 
 Here we will first create a new environment variable in os called `MABOP_ENV` (name changable)
-- run command to set it as os environment ` $env:MABOP_ENV = "dev" `
+- make a .env.{filename}
+- run command to set it as os environment ` $env:MABOP_ENV = "{filename}" `
 - run the application `python run.py`
 
 Settings in environment selector file `config.py`
