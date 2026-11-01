@@ -1,6 +1,4 @@
 .env.dev
 .env.prod
 .obsidian/
-agentic_rag_docs/*
-agentic_rag_docs/
 agentic_rag_docs/.obsidian/workspace.json
