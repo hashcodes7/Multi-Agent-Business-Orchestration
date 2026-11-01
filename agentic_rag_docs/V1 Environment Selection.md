@@ -5,7 +5,7 @@ We will dynamically load env file .prod or .dev using
 ``` python
 import sys
 from pydantic_settings import BaseSettings, SettingsConfigDict
-k
+ks
 class Settings(BaseSettings):
     APP_ENV: str = "dev"
     ECOMMERCE_API_BASE_URL: str = "https://fakestoreapi.com"
