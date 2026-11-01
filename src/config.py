@@ -10,7 +10,7 @@ ENV_FILE = f".env.{APP_ENV}"
 class Settings(BaseSettings):
 
     APP_ENV: str = APP_ENV
-    ECOMMERCE_API_BASE_URL: str = "https://fakestoreapi.com"
+    ECOMMERCE_API_BASE_URL: str = ""
 
     model_config = SettingsConfigDict(
         env_file=ENV_FILE,
