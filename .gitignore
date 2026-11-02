@@ -1,4 +1,5 @@
 .env.dev
 .env.prod
 .obsidian/
-agentic_rag_docs/.obsidian/workspace.json
+agentic_rag_docs/.obsidian/
+src/__pycache__/

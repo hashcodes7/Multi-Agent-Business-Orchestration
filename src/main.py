@@ -1,30 +1,23 @@
 from contextlib import asynccontextmanager
-
 from fastapi import Depends, FastAPI
-
 from src.config import Settings, get_settings
 
 
-# ---------------------------------------------------------------------------
-# Lifespan (replaces deprecated @app.on_event)
-# ---------------------------------------------------------------------------
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Runs once on startup (before yield) and once on shutdown (after yield)."""
-    s = get_settings()
-    print("================================================================")
-    print(f"  Environment       : {s.APP_ENV.upper()}")
-    print(f"  Config Source     : .env.{s.APP_ENV}")
-    print(f"  Ecommerce Base URL: {s.ECOMMERCE_API_BASE_URL}")
-    print("================================================================")
+    """
+    Lifespan context manager that runs once on startup and once on shutdown.
+    Replaces deprecated @app.on_event handlers.
+    """
+    settings = get_settings()
+    print("=" * 64)
+    print("  Multi-Agent Business Orchestration Platform Starting")
+    print(f"  Environment       : {settings.APP_ENV.upper()}")
+    print(f"  Ecommerce Base URL: {settings.ECOMMERCE_API_BASE_URL}")
+    print("=" * 64)
     yield
-    # ← shutdown logic goes here
+    print("Shutting down Multi-Agent Business Orchestration Platform cleanly...")
 
-
-# ---------------------------------------------------------------------------
-# App
-# ---------------------------------------------------------------------------
 
 app = FastAPI(
     title="Multi-Agent Business Orchestration",
@@ -34,13 +27,9 @@ app = FastAPI(
 )
 
 
-# ---------------------------------------------------------------------------
-# Routes
-# ---------------------------------------------------------------------------
-
 @app.get("/", tags=["Health"])
 async def root(settings: Settings = Depends(get_settings)):
-    """Health-check — returns current environment info."""
+    """Health-check endpoint returning the active environment configuration."""
     return {
         "status": "ok",
         "environment": settings.APP_ENV,
@@ -50,4 +39,5 @@ async def root(settings: Settings = Depends(get_settings)):
 
 @app.get("/health", tags=["Health"])
 async def health():
+    """Liveness probe endpoint for Kubernetes / load balancers."""
     return {"status": "healthy"}
